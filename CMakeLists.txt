@@ -9,4 +9,4 @@ SET(SuperFreeCell_SRC
 )
 
 ADD_EXECUTABLE(SuperFreeCell ${SuperFreeCell_SRC})
-TARGET_LINK_LIBRARIES(SuperFreeCell be root tracker)
+TARGET_LINK_LIBRARIES(SuperFreeCell be root tracker translation)

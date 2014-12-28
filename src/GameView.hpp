@@ -2,6 +2,7 @@
 #define GAME_VIEW_HPP
 
 #include <InterfaceKit.h>
+#include "Card.hpp"
 
 class GameView : public BView{
 	public:
@@ -10,9 +11,9 @@ class GameView : public BView{
 		void		AllAttached();
 		void		Draw(BRect rect);
 		void		Pulse();
-		/*void		MouseDown(BPoint point);
+		void		MouseDown(BPoint point);
 		void		MouseMoved(BPoint, uint32 transit, const BMessage* msg);
-		void		MouseUp(BPoint point);*/
+		void		MouseUp(BPoint point);
 		void		StartNewGame();
 		void		Resize(float width, float height);
 	private:
@@ -20,6 +21,7 @@ class GameView : public BView{
 		int32		moves;
 		float		height;
 		float		width;
+		Board*		board;
 };
 
 #endif
