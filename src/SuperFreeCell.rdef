@@ -1,0 +1,70 @@
+
+resource app_signature "application/x-vnd.adrianarroyocalle.SuperFreeCell";
+
+resource app_version {
+	major	= 0,
+	middle	= 1,
+	minor	= 0,
+	
+	variety	= B_APPV_ALPHA,
+	internal = 0,
+	
+	short_info 	= "SuperFreeCell",
+	long_info	= "FreeCell solitaire for Haiku"
+	
+};
+
+resource(2, "data/1_club.png")       #'rGFX' import "../data/1_club.png" ;
+resource(3, "data/1_diamond.png")    #'rGFX' import "../data/1_diamond.png" ;
+resource(4, "data/1_heart.png")      #'rGFX' import "../data/1_heart.png" ;
+resource(5, "data/1_spade.png")      #'rGFX' import "../data/1_spade.png" ;
+resource(6, "data/10_club.png")      #'rGFX' import "../data/10_club.png" ;
+resource(7, "data/10_diamond.png")   #'rGFX' import "../data/10_diamond.png" ;
+resource(8, "data/10_heart.png")     #'rGFX' import "../data/10_heart.png" ;
+resource(9, "data/10_spade.png")     #'rGFX' import "../data/10_spade.png" ;
+resource(10, "data/11_club.png")     #'rGFX' import "../data/11_club.png" ;
+resource(11, "data/11_diamond.png")  #'rGFX' import "../data/11_diamond.png" ;
+resource(12, "data/11_heart.png")    #'rGFX' import "../data/11_heart.png" ;
+resource(13, "data/11_spade.png")    #'rGFX' import "../data/11_spade.png" ;
+resource(14, "data/12_club.png")     #'rGFX' import "../data/12_club.png" ;
+resource(15, "data/12_diamond.png")  #'rGFX' import "../data/12_diamond.png" ;
+resource(16, "data/12_heart.png")    #'rGFX' import "../data/12_heart.png" ;
+resource(17, "data/12_spade.png")    #'rGFX' import "../data/12_spade.png" ;
+resource(18, "data/13_club.png")     #'rGFX' import "../data/13_club.png" ;
+resource(19, "data/13_diamond.png")  #'rGFX' import "../data/13_diamond.png" ;
+resource(20, "data/13_heart.png")    #'rGFX' import "../data/13_heart.png" ;
+resource(21, "data/13_spade.png")    #'rGFX' import "../data/13_spade.png" ;
+resource(22, "data/2_club.png")      #'rGFX' import "../data/2_club.png" ;
+resource(23, "data/2_diamond.png")   #'rGFX' import "../data/2_diamond.png" ;
+resource(24, "data/2_heart.png")     #'rGFX' import "../data/2_heart.png" ;
+resource(25, "data/2_spade.png")     #'rGFX' import "../data/2_spade.png" ;
+resource(26, "data/3_club.png")      #'rGFX' import "../data/3_club.png" ;
+resource(27, "data/3_diamond.png")   #'rGFX' import "../data/3_diamond.png" ;
+resource(28, "data/3_heart.png")     #'rGFX' import "../data/3_heart.png" ;
+resource(29, "data/3_spade.png")     #'rGFX' import "../data/3_spade.png" ;
+resource(30, "data/4_club.png")      #'rGFX' import "../data/4_club.png" ;
+resource(31, "data/4_diamond.png")   #'rGFX' import "../data/4_diamond.png" ;
+resource(32, "data/4_heart.png")     #'rGFX' import "../data/4_heart.png" ;
+resource(33, "data/4_spade.png")     #'rGFX' import "../data/4_spade.png" ;
+resource(34, "data/5_club.png")      #'rGFX' import "../data/5_club.png" ;
+resource(35, "data/5_diamond.png")   #'rGFX' import "../data/5_diamond.png" ;
+resource(36, "data/5_heart.png")     #'rGFX' import "../data/5_heart.png" ;
+resource(37, "data/5_spade.png")     #'rGFX' import "../data/5_spade.png" ;
+resource(38, "data/6_club.png")      #'rGFX' import "../data/6_club.png" ;
+resource(39, "data/6_diamond.png")   #'rGFX' import "../data/6_diamond.png" ;
+resource(40, "data/6_heart.png")     #'rGFX' import "../data/6_heart.png" ;
+resource(41, "data/6_spade.png")     #'rGFX' import "../data/6_spade.png" ;
+resource(42, "data/7_club.png")      #'rGFX' import "../data/7_club.png" ;
+resource(43, "data/7_diamond.png")   #'rGFX' import "../data/7_diamond.png" ;
+resource(44, "data/7_heart.png")     #'rGFX' import "../data/7_heart.png" ;
+resource(45, "data/7_spade.png")     #'rGFX' import "../data/7_spade.png" ;
+resource(46, "data/8_club.png")      #'rGFX' import "../data/8_club.png" ;
+resource(47, "data/8_diamond.png")   #'rGFX' import "../data/8_diamond.png" ;
+resource(48, "data/8_heart.png")     #'rGFX' import "../data/8_heart.png" ;
+resource(49, "data/8_spade.png")     #'rGFX' import "../data/8_spade.png" ;
+resource(50, "data/9_club.png")      #'rGFX' import "../data/9_club.png" ;
+resource(51, "data/9_diamond.png")   #'rGFX' import "../data/9_diamond.png" ;
+resource(52, "data/9_heart.png")     #'rGFX' import "../data/9_heart.png" ;
+resource(53, "data/9_spade.png")     #'rGFX' import "../data/9_spade.png" ;
+resource(54, "data/back.png")        #'rGFX' import "../data/back.png" ;
+resource(55, "data/empty.png")       #'rGFX' import "../data/empty.png" ;

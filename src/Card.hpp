@@ -31,9 +31,14 @@ typedef enum{
 
 class Card{
 	public:
-					Card(BView* view,BPoint pt, BBitmap* img, Suit suit, CardValue value) : view(view), point(pt), img(img), suit(suit), value(value)
+					Card(BView* view,BPoint pt, BString path, Suit suit, CardValue value) : view(view), point(pt), suit(suit), value(value)
 					{
 						selected=false;
+						img=BTranslationUtils::GetBitmap('rGFX',path);
+						if(img==NULL)
+						{
+							fprintf(stderr,"Bitmap is null");
+						}
 					}
 					~Card()
 					{
@@ -43,7 +48,7 @@ class Card{
 					void
 					Draw()
 					{
-						//view->SetDrawingMode(B_OP_ALPHA);
+						view->SetDrawingMode(B_OP_ALPHA);
 						BRect rect=BRect(point.x,point.y,point.x+80,point.y+116);
 						view->DrawBitmap(img,rect);	
 						if(selected)
@@ -104,27 +109,22 @@ class Board{
 	public:
 					Board(BView* view) : view(view)
 					{
-						BString path="/boot/home/SuperFreeCell/data/";
+						
 						srand(time(NULL));
 						for(int i=0;i<8;i++)
 						{
 							stack[i]=new Stack(view);
 						}
 						int currentStack=0;
-						bool totalCards[52];
-						for(int j=0;j<1;j++)
+						int row=4;
+						int totalCards[52]={0};
+						this->Random(totalCards,52);
+						for(int j=0;j<52;j++)
 						{
-							int indexCard=0;
-							do{
-								indexCard=(rand() % 53)-1;
-								
-							}while(totalCards[indexCard]==false);
-							
-							totalCards[indexCard]=true;
-							
-							/* Create the card */
+							BString path="data/";
+							int indexCard=totalCards[j];
 		
-							path << indexCard % 13;
+							path << (indexCard % 13)+1;
 							path << "_";
 							
 							Suit suit;
@@ -146,18 +146,16 @@ class Board{
 							}
 							
 							path << ".png";
-
 							
-							BBitmap* img=BTranslationUtils::GetBitmap(path);
-							
-							
-							Card* card=new Card(view,BPoint(10*currentStack,10*((indexCard % 13)+1)),img,suit,(CardValue)((indexCard % 13)+1));
+							BPoint pt(80*(currentStack+1),40*row);
+							Card* card=new Card(view,pt,path,suit,(CardValue)((indexCard % 13)+1));
 							
 							stack[currentStack]->AddCard(card);
 							currentStack++;
 							if(currentStack==8)
 							{
 								currentStack=0;
+								row++;
 							}
 						}
 					}
@@ -192,6 +190,26 @@ class Board{
 								}
 							}
 						}
+					}
+					
+					void
+					Random(int v[], int size)
+					{
+    					int i, j, num, dupl;
+    					for (i = 0; i < size; i++){
+        					num = 1 + rand() % size;
+        					dupl = 0;
+        					for (j = 0; j <= i; j++){
+            					if (num == v[j]){
+               						dupl = 1;
+               						break;
+            					}
+        					}
+        					if (dupl == 1)
+           						i--;
+        					else
+          						v[i] = num;
+    					}
 					}
 	private:
 		Stack* stack[8];

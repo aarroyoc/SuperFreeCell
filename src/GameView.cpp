@@ -21,6 +21,8 @@ void
 GameView::AllAttached()
 {
 	//GENERATE BOARD
+	MakeFocus(true);
+	BView::AttachedToWindow();
 }
 
 void
