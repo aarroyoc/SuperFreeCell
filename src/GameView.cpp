@@ -10,6 +10,7 @@ GameView::GameView() : BView(BRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT),
 	height=WINDOW_HEIGHT;
 	points=0;
 	moves=0;
+	card=NULL;
 }
 
 GameView::~GameView()
@@ -95,14 +96,22 @@ GameView::Pulse()
 void
 GameView::MouseDown(BPoint point)
 {
-	board->SearchFor(point);
-	
+	card=board->SearchFor(point);
+	if(card!=NULL)
+	{
+		card->MarkAsSelected();
+	}
+	Invalidate();
 }
 
 void
 GameView::MouseMoved(BPoint point, uint32 transit, const BMessage* msg)
 {
-	
+	if(card!=NULL)
+	{
+		card->point=point;
+	}
+	Invalidate();
 }
 
 void

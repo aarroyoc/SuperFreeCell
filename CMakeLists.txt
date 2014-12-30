@@ -6,6 +6,7 @@ SET(SuperFreeCell_SRC
 "src/App.cpp"
 "src/Window.cpp"
 "src/GameView.cpp"
+"src/Card.cpp"
 )
 
 ADD_EXECUTABLE(SuperFreeCell ${SuperFreeCell_SRC})

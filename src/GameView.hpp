@@ -22,6 +22,7 @@ class GameView : public BView{
 		float		height;
 		float		width;
 		Board*		board;
+		Card*		card;
 };
 
 #endif

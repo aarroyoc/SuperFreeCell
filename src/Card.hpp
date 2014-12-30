@@ -2,6 +2,7 @@
 #define CARD_HPP
 
 #include <TranslationUtils.h>
+#include <InterfaceKit.h>
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
@@ -29,46 +30,40 @@ typedef enum{
 	CARD_1 = 1
 } CardValue;
 
-class Card{
+class Card : public BView{
 	public:
-					Card(BView* view,BPoint pt, BString path, Suit suit, CardValue value) : view(view), point(pt), suit(suit), value(value)
-					{
-						selected=false;
-						img=BTranslationUtils::GetBitmap('rGFX',path);
-						if(img==NULL)
-						{
-							fprintf(stderr,"Bitmap is null");
-						}
-					}
+					Card(BPoint pt, BString path, Suit suit, CardValue value);
 					~Card()
 					{
 						
 					}
 					
-					void
-					Draw()
-					{
-						view->SetDrawingMode(B_OP_ALPHA);
-						BRect rect=BRect(point.x,point.y,point.x+80,point.y+116);
-						view->DrawBitmap(img,rect);	
-						if(selected)
-						{
-							view->SetHighColor(255,0,0,127);
-							view->FillRect(rect);
-						}
-					}
+					void Draw(BRect rt);
+	
+					void MouseDown(BPoint pt);
+					
+					void MouseMoved(BPoint pt, uint32 transit, const BMessage* msg);
+					
+					void MouseUp(BPoint pt);
+					
+					void MessageReceived(BMessage* msg);
 					
 					void
 					MarkAsSelected()
 					{
 						selected=!selected;
 					}
+					
+					void
+					UnmarkAsSelected()
+					{
+						selected=false;
+					}
 					BPoint point;
 	private:
 		BBitmap* img;
 		Suit suit;
 		CardValue value;
-		BView* view;
 		bool selected;
 };
 
@@ -88,16 +83,15 @@ class Stack{
 					{
 						card[cards]=crd;
 						cards++;
-						
 					}
 		
 					void
 					Draw()
 					{
-						for(int i=0;i<cards;i++)
+						/*for(int i=0;i<cards;i++)
 						{
 							card[i]->Draw();
-						}
+						}*/
 					}
 		Card* card[25];
 		int cards;
@@ -147,9 +141,9 @@ class Board{
 							
 							path << ".png";
 							
-							BPoint pt(80*(currentStack+1),40*row);
-							Card* card=new Card(view,pt,path,suit,(CardValue)((indexCard % 13)+1));
-							
+							BPoint pt(85*(currentStack+1),40*row);
+							Card* card=new Card(pt,path,suit,(CardValue)((indexCard % 13)+1));
+							view->AddChild(card);
 							stack[currentStack]->AddCard(card);
 							currentStack++;
 							if(currentStack==8)
@@ -173,7 +167,7 @@ class Board{
 						}
 					}
 					
-					void
+					Card*
 					SearchFor(BPoint point)
 					{
 						for(int i=0;i<8;i++)
@@ -181,15 +175,19 @@ class Board{
 							for(int j=0;j<stack[i]->cards;j++)
 							{
 								Card* card=stack[i]->card[j];
+								card->UnmarkAsSelected();
 								if(card->point.x < point.x && card->point.x+80 > point.x)
 								{
-									if(card->point.y < point.y && card->point.y+116 > point.y)
+									/*if(card->point.y < point.y && card->point.y+116 > point.y)*/
+									if(card->point.y < point.y && card->point.y+20 > point.y)
 									{
-										card->MarkAsSelected();
+										return card;
 									}
 								}
+								
 							}
 						}
+						return NULL;
 					}
 					
 					void
