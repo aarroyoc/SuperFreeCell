@@ -4,13 +4,15 @@
 #include <InterfaceKit.h>
 #include "Card.hpp"
 
+
+
 class GameView : public BView{
 	public:
 					GameView();
 					~GameView();
 		void		AllAttached();
 		void		Draw(BRect rect);
-		void		Pulse();
+		virtual void		Pulse();
 		void		MouseDown(BPoint point);
 		void		MouseMoved(BPoint, uint32 transit, const BMessage* msg);
 		void		MouseUp(BPoint point);
@@ -21,7 +23,6 @@ class GameView : public BView{
 		int32		moves;
 		float		height;
 		float		width;
-		Board*		board;
 		Card*		card;
 };
 

@@ -1,6 +1,8 @@
 #include "GameView.hpp"
 #include "Window.hpp"
 
+Board* board;
+
 GameView::GameView() : BView(BRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT),
 	"GameView", B_FOLLOW_LEFT | B_FOLLOW_TOP, B_WILL_DRAW | B_PULSE_NEEDED | B_FULL_UPDATE_ON_RESIZE)
 {
@@ -51,11 +53,16 @@ GameView::Draw(BRect rect)
 			deckPoints[j].x+=80+4;
 		}
 		deck=new BPolygon(deckPoints,4);
+		
 		StrokePolygon(deck);
 	}
 	//DRAW CARDS
-	board->Draw();
 	
+	for(int i=0;i<CountChildren();i++)
+	{
+		ChildAt(i)->Invalidate();
+		ChildAt(i)->Sync();
+	}
 	
 	BString pointsText = "";
 	pointsText << points;
@@ -88,9 +95,12 @@ GameView::Draw(BRect rect)
 void
 GameView::Pulse()
 {
-	//Window()->SetPulseRate(500000);
-	//this->Draw();
 	Invalidate();
+	for(int i=0;i<CountChildren();i++)
+	{
+		ChildAt(i)->Invalidate();
+		ChildAt(i)->Sync();
+	}
 }
 
 void

@@ -8,10 +8,10 @@
 #include <stdio.h>
 
 typedef enum{
-	SUIT_SPADES,
-	SUIT_CLUBS,
-	SUIT_HEARTS,
-	SUIT_DIAMONDS
+	SUIT_SPADES = 1,
+	SUIT_CLUBS = 3,
+	SUIT_HEARTS = 2,
+	SUIT_DIAMONDS = 4
 } Suit;
 
 typedef enum{
@@ -30,9 +30,10 @@ typedef enum{
 	CARD_1 = 1
 } CardValue;
 
+
 class Card : public BView{
 	public:
-					Card(BPoint pt, BString path, Suit suit, CardValue value);
+					Card(BPoint pt, BString path, Suit suit, CardValue value, int32 stack, int32 row);
 					~Card()
 					{
 						
@@ -42,11 +43,11 @@ class Card : public BView{
 	
 					void MouseDown(BPoint pt);
 					
-					void MouseMoved(BPoint pt, uint32 transit, const BMessage* msg);
+					//void MouseMoved(BPoint pt, uint32 transit, const BMessage* msg);
 					
 					void MouseUp(BPoint pt);
 					
-					void MessageReceived(BMessage* msg);
+					//void MessageReceived(BMessage* msg);
 					
 					void
 					MarkAsSelected()
@@ -59,44 +60,14 @@ class Card : public BView{
 					{
 						selected=false;
 					}
-					BPoint point;
-	private:
+		BPoint point;
 		BBitmap* img;
 		Suit suit;
 		CardValue value;
 		bool selected;
-};
-
-class Stack{
-	public:
-					Stack(BView* view) : view(view)
-					{
-						cards=0;
-					}
-					~Stack()
-					{
-						
-					}
-					
-					void
-					AddCard(Card* crd)
-					{
-						card[cards]=crd;
-						cards++;
-					}
-		
-					void
-					Draw()
-					{
-						/*for(int i=0;i<cards;i++)
-						{
-							card[i]->Draw();
-						}*/
-					}
-		Card* card[25];
-		int cards;
-	private:
-		BView* view;
+		BString path;
+		int32 stack;
+		int32 row;
 };
 
 class Board{
@@ -104,11 +75,15 @@ class Board{
 					Board(BView* view) : view(view)
 					{
 						
-						srand(time(NULL));
-						for(int i=0;i<8;i++)
+						
+						for(int n=0;n<(8+4+4);n++)
 						{
-							stack[i]=new Stack(view);
+							for(int m=0;m<25;m++)
+							{
+								stack[n][m]=NULL;
+							}
 						}
+						srand(time(NULL));
 						int currentStack=0;
 						int row=4;
 						int totalCards[52]={0};
@@ -142,15 +117,16 @@ class Board{
 							path << ".png";
 							
 							BPoint pt(85*(currentStack+1),40*row);
-							Card* card=new Card(pt,path,suit,(CardValue)((indexCard % 13)+1));
+							Card* card=new Card(pt,path,suit,(CardValue)((indexCard % 13)+1),currentStack,row);
 							view->AddChild(card);
-							stack[currentStack]->AddCard(card);
+							stack[currentStack][row]=card;
 							currentStack++;
 							if(currentStack==8)
 							{
 								currentStack=0;
 								row++;
 							}
+							//Card* card=new Card(BPoint());
 						}
 					}
 					~Board()
@@ -158,19 +134,10 @@ class Board{
 						
 					}
 					
-					void
-					Draw()
-					{
-						for(int i=0;i<8;i++)
-						{
-							stack[i]->Draw();
-						}
-					}
-					
 					Card*
 					SearchFor(BPoint point)
 					{
-						for(int i=0;i<8;i++)
+						/*for(int i=0;i<8;i++)
 						{
 							for(int j=0;j<stack[i]->cards;j++)
 							{
@@ -178,7 +145,7 @@ class Board{
 								card->UnmarkAsSelected();
 								if(card->point.x < point.x && card->point.x+80 > point.x)
 								{
-									/*if(card->point.y < point.y && card->point.y+116 > point.y)*/
+									//if(card->point.y < point.y && card->point.y+116 > point.y)
 									if(card->point.y < point.y && card->point.y+20 > point.y)
 									{
 										return card;
@@ -186,7 +153,7 @@ class Board{
 								}
 								
 							}
-						}
+						}*/
 						return NULL;
 					}
 					
@@ -209,8 +176,7 @@ class Board{
           						v[i] = num;
     					}
 					}
-	private:
-		Stack* stack[8];
+		Card* stack[8+4+4][25];
 		BView* view;
 };
 
