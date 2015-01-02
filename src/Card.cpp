@@ -36,7 +36,7 @@ Card::Draw(BRect rt)
 void
 Card::MouseDown(BPoint pt)
 {
-	if(mouseLock)
+	/*if(mouseLock)
 		return;
 	if(board->stack[stack][row+1]!=NULL)
 		return;
@@ -75,7 +75,7 @@ Card::MouseDown(BPoint pt)
 	msg.AddString("path",path);
 	BBitmap* image=new BBitmap(img);
 	DragMessage(&msg,image,B_OP_BLEND,pt,Window());
-	//Invalidate();
+	Invalidate();*/
 }
 
 /*void

@@ -24,7 +24,9 @@ Window::Window() :
 	layout->AddView(CreateMenuBar());
 	layout->AddView(gameView);
 	
-	SetPulseRate(200);
+	//SetPulseRate(200*1000);
+	//SetPulseRate(60);
+	SetPulseRate(500000);
 	
 }
 

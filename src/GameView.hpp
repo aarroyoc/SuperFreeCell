@@ -4,7 +4,18 @@
 #include <InterfaceKit.h>
 #include "Card.hpp"
 
-
+typedef struct card {
+	short fValue;
+	short fColor;
+	bool fRevealed;
+	short fEffect;
+	bool fInPlay;
+	bool fSelected;
+	short oldNumber;
+	bool stacked;
+	card* fNextCard;
+	card* fPrevCard;
+} card;
 
 class GameView : public BView{
 	public:
@@ -18,12 +29,18 @@ class GameView : public BView{
 		void		MouseUp(BPoint point);
 		void		StartNewGame();
 		void		Resize(float width, float height);
+		card*		NumberToCard(int number);
+		void		Random(int vec[],int num);
+		BBitmap*	LoadBitmap(card* card);
+		bool		CheckStack(int card);
 	private:
 		int32		points;
 		int32		moves;
 		float		height;
 		float		width;
-		Card*		card;
+		card* 		board[200];
+		bool		mouselock;
+		card*		selected;
 };
 
 #endif
