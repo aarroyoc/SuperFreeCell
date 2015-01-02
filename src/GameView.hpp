@@ -33,6 +33,7 @@ class GameView : public BView{
 		void		Random(int vec[],int num);
 		BBitmap*	LoadBitmap(card* card);
 		bool		CheckStack(int card);
+		bool		CheckSuite(int suit, int suit2);
 	private:
 		int32		points;
 		int32		moves;
