@@ -1,6 +1,7 @@
 #include "GameView.hpp"
 #include "Window.hpp"
 #include <TranslationUtils.h>
+#include <stdlib.h>
 
 
 GameView::GameView() : BView(BRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT),

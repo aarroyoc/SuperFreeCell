@@ -2,7 +2,6 @@
 #define GAME_VIEW_HPP
 
 #include <InterfaceKit.h>
-#include "Card.hpp"
 
 typedef struct card {
 	short fValue;
