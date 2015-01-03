@@ -15,6 +15,7 @@ typedef struct card {
 	bool stacked;
 	card* fNextCard;
 	card* fPrevCard;
+	BBitmap* img;
 } card;
 
 class GameView : public BView{

@@ -59,8 +59,8 @@ GameView::Draw(BRect rect)
 		StrokePolygon(deck);
 		
 		if(board[i]!=NULL){
-			BBitmap* img=this->LoadBitmap(board[i]);
-			DrawBitmap(img,deck->Frame());
+			//BBitmap* img=this->LoadBitmap(board[i]);
+			DrawBitmap(board[i]->img,deck->Frame());
 		}
 	}
 	//DRAW CARDS
@@ -71,10 +71,11 @@ GameView::Draw(BRect rect)
 		BBitmap* img=NULL;
 		if(board[i]!=NULL)
 		{
-			img=this->LoadBitmap(board[i]);
+			//img=this->LoadBitmap(board[i]);
+			img=board[i]->img;
 		}
 		BPoint pt(85*(stack+1),40*(row+4));
-		DrawBitmap(img,pt);
+		DrawBitmapAsync(img,pt);
 		/*if( board[i]!=NULL && board[i]->fSelected)
 		{
 			SetHighColor(255,0,0,127);
@@ -87,6 +88,7 @@ GameView::Draw(BRect rect)
 			stack++;
 		}
 	}
+	Sync();
 	
 	//DRAW POINTS
 	
@@ -186,6 +188,7 @@ GameView::MouseDown(BPoint point)
 				return;
 			selected=board[saved];
 			selected->oldNumber=saved;
+			DragMessage(new BMessage(B_SIMPLE_DATA),new BBitmap(selected->img),B_OP_BLEND,BPoint(0,0));
 		}
 		return;
 	}
@@ -203,6 +206,7 @@ GameView::MouseDown(BPoint point)
 		}
 		selected=board[saved];
 		selected->oldNumber=saved;
+		DragMessage(new BMessage(B_SIMPLE_DATA),new BBitmap(selected->img),B_OP_BLEND,BPoint(0,0));
 	}
 
 }
@@ -210,12 +214,12 @@ GameView::MouseDown(BPoint point)
 void
 GameView::MouseMoved(BPoint point, uint32 transit, const BMessage* msg)
 {
-	if(mouselock && selected!=NULL)
+	/*if(mouselock && selected!=NULL)
 	{
-		BBitmap* img=this->LoadBitmap(selected);
-		DrawBitmap(img,point);
+		//BBitmap* img=this->LoadBitmap(selected);
+		DrawBitmapAsync(selected->img,point);
 		Invalidate();
-	}
+	}*/
 }
 
 void
@@ -332,7 +336,9 @@ GameView::MouseUp(BPoint point)
 				{
 					board[j*26+8+k+1]=selected->fNextCard;
 					k++;
-					selected=selected->fNextCard;
+					struct card* temp_card=selected->fNextCard;
+					selected->fNextCard=NULL;
+					selected=temp_card;
 					board[selected->oldNumber]=NULL;
 				}
 				selected=NULL;
@@ -340,7 +346,7 @@ GameView::MouseUp(BPoint point)
 			}
 		}
 	}
-	if(saved>=0)
+	if(saved>=0 && saved<200)
 	{
 		//SUPPORT FOR STACKS
 		if(board[saved+1]==NULL && (board[saved]->fValue -1 == selected->fValue))
@@ -352,24 +358,25 @@ GameView::MouseUp(BPoint point)
 				board[selected->oldNumber]=NULL;
 				moves++;
 				
-				
 				while(selected->fNextCard!=NULL)
 				{
 					board[saved+j+1]=selected->fNextCard;
 					j++;
-					selected=selected->fNextCard;
+					struct card* temp_card=selected->fNextCard;
+					selected->fNextCard=NULL;
+					selected=temp_card;
 					board[selected->oldNumber]=NULL;
 				}
 			}
 		}
 	}
 	selected=NULL;
-	
 }
 
 void
 GameView::StartNewGame()
 {
+	moves=0;
 	for(short i=0;i<200;i++)
 		board[i]=NULL;
 	selected=NULL;
@@ -483,6 +490,8 @@ GameView::NumberToCard(int cd)
 	}else{
 		cad->fColor=4; //DIAMONDS
 	}
+	cad->img=this->LoadBitmap(cad);
+	cad->fNextCard=NULL;
 	return cad;
 }
 

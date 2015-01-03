@@ -25,8 +25,8 @@ Window::Window() :
 	layout->AddView(gameView);
 	
 	//SetPulseRate(200*1000);
-	//SetPulseRate(60);
-	SetPulseRate(500000);
+	SetPulseRate(120);
+	//SetPulseRate(500000);
 	
 }
 
@@ -108,6 +108,14 @@ Window::MessageReceived(BMessage* msg)
 			UpdateIfNeeded();
 			gameView->Invalidate();
 			gameView->Pulse();
+			break;
+		}
+		case 'DATA':{
+			if(msg->WasDropped()){
+				gameView->MouseUp(msg->DropPoint());
+			}else{
+				BWindow::MessageReceived(msg);
+			}
 			break;
 		}
 		
