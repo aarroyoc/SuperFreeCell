@@ -1,3 +1,8 @@
+/*
+ * Copyright 2014-2015 Adrián Arroyo Calle <adrian.arroyocalle@gmail.com>
+ * All rights reserved. Distributed under the terms of the MIT license.
+ */
+
 #ifndef GAME_VIEW_HPP
 #define GAME_VIEW_HPP
 

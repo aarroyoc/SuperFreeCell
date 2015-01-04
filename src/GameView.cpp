@@ -1,3 +1,8 @@
+/*
+ * Copyright 2014-2015 Adrián Arroyo Calle <adrian.arroyocalle@gmail.com>
+ * All rights reserved. Distributed under the terms of the MIT license.
+ */
+
 #include "GameView.hpp"
 #include "Window.hpp"
 #include <TranslationUtils.h>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Your Name <your@email.address>
+ * Copyright 2014-2015 Adrián Arroyo Calle <adrian.arroyocalle@gmail.com>
  * All rights reserved. Distributed under the terms of the MIT license.
  */
 #ifndef APP_H
