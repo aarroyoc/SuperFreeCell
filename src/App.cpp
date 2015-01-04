@@ -28,7 +28,7 @@ SuperFreeCell::AboutRequested()
 	aboutText << "SuperFreeCell 0.1 \n";
 	aboutText << "A freecell clone for Haiku \n";
 	aboutText << "\n";
-	aboutText << "2014 Adrián Arroyo Calle <adrian.arroyocalle@gmail.com>\n";
+	aboutText << "2014-2015 Adrián Arroyo Calle <adrian.arroyocalle@gmail.com>\n";
 	aboutText << "Licensed under the MIT license\n";
 	
 	BAlert* about=new BAlert("About",aboutText,"OK");
