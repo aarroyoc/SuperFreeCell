@@ -90,10 +90,7 @@ GameView::Draw(BRect rect)
 	
 	// Draw Points
 	
-	BString pointsText = "";
-	pointsText << points;
-	
-	BString movesText = "";
+	BString movesText="";
 	movesText << moves;
 	
 	BFont bigFont;
