@@ -52,24 +52,20 @@ GameView::Draw(BRect rect)
 		BPoint(0,4)};
 	BPolygon* deck;
 	
-	for(int i=0;i<8;i++)
-	{
-		if(i==4)
-		{
-			for(int j=0;j<4;j++)
-			{
+	for (int i=0;i<8;i++) {
+		if (i==4) {
+			for (int j=0;j<4;j++) {
 				deckPoints[j].x+=80+4;
 			}
 		}
-		for(int j=0;j<4;j++)
-		{
+		for (int j=0;j<4;j++) {
 			deckPoints[j].x+=80+4;
 		}
 		deck=new BPolygon(deckPoints,4);
 		
 		StrokePolygon(deck);
 		
-		if(board[i]!=NULL){
+		if (board[i]!=NULL) {
 			DrawBitmap(board[i]->img,deck->Frame());
 		}
 	}
@@ -77,18 +73,15 @@ GameView::Draw(BRect rect)
 	short row=0;
 	short stack=0;
 	
-	for(short i=8;i<200;i++)
-	{
+	for (short i=8;i<200;i++) {
 		BBitmap* img=NULL;
-		if(board[i]!=NULL)
-		{
+		if (board[i]!=NULL) {
 			img=board[i]->img;
 		}
 		BPoint pt(85*(stack+1),40*(row+4));
 		DrawBitmapAsync(img,pt);
 		row++;
-		if(row==26)
-		{
+		if (row==26) {
 			row=0;
 			stack++;
 		}
@@ -140,20 +133,16 @@ GameView::MouseDown(BPoint point)
 	short saved=-1;
 	bool special=false;
 	
-	for(short i=8;i<200;i++)
-	{
+	for (short i=8;i<200;i++) {
 		BPoint pt(85*(stack+1),40*(row+4));
 		BRect rect(pt,BPoint(pt.x+80,pt.y+116));
-		if(board[i]!=NULL)
-		{
-			if(rect.Contains(point))
-			{
+		if (board[i]!=NULL) {
+			if (rect.Contains(point)) {
 				saved=i;
 			}
 		}
 		row++;
-		if(row==26)
-		{
+		if (row==26) {
 			row=0;
 			stack++;
 		}
@@ -163,31 +152,24 @@ GameView::MouseDown(BPoint point)
 		BPoint(0,4)};
 	BPolygon* deck;
 	
-	for(short i=0;i<8;i++)
-	{
-		if(i==4)
-		{
-			for(int j=0;j<4;j++)
-			{
+	for (short i=0;i<8;i++) {
+		if (i==4) {
+			for (int j=0;j<4;j++) {
 				deckPoints[j].x+=80+4;
 			}
 		}
-		for(int j=0;j<4;j++)
-		{
+		for (int j=0;j<4;j++) {
 			deckPoints[j].x+=80+4;
 		}
 		deck=new BPolygon(deckPoints,4);
-		if(deck->Frame().Contains(point))
-		{
+		if (deck->Frame().Contains(point)) {
 			special=true;
 			saved=i;
 		}
 	}
-	if(special)
-	{
-		if(saved<4)
-		{
-			if(board[saved]==NULL)
+	if (special) {
+		if (saved<4) {
+			if (board[saved]==NULL)
 				return;
 			selected=board[saved];
 			selected->oldNumber=saved;
@@ -198,11 +180,9 @@ GameView::MouseDown(BPoint point)
 	}
 	
 	
-	if(saved>=0 && this->CheckStack(saved))
-	{
+	if (saved>=0 && this->CheckStack(saved)) {
 		short j=0;
-		while(board[saved+j+1]!=NULL)
-		{
+		while (board[saved+j+1]!=NULL) {
 			board[saved+j+1]->oldNumber=saved+j+1;
 			board[saved+j]->fNextCard=board[saved+j+1];
 			j++;
@@ -234,20 +214,16 @@ GameView::MouseUp(BPoint point)
 	short stack=0;
 	short saved=-1;
 	bool special=false;
-	for(short i=8;i<200;i++)
-	{
+	for (short i=8;i<200;i++) {
 		BPoint pt(85*(stack+1),40*(row+4));
 		BRect rect(pt,BPoint(pt.x+80,pt.y+116));
-		if(board[i]!=NULL)
-		{
-			if(rect.Contains(point))
-			{
+		if (board[i]!=NULL) {
+			if (rect.Contains(point)) {
 				saved=i;
 			}
 		}
 		row++;
-		if(row==26)
-		{
+		if (row==26) {
 			row=0;
 			stack++;
 		}
@@ -257,64 +233,53 @@ GameView::MouseUp(BPoint point)
 		BPoint(0,4)};
 	BPolygon* deck;
 	
-	for(short i=0;i<8;i++)
-	{
-		if(i==4)
-		{
-			for(int j=0;j<4;j++)
-			{
+	for (short i=0;i<8;i++) {
+		if (i==4) {
+			for (int j=0;j<4;j++) {
 				deckPoints[j].x+=80+4;
 			}
 		}
-		for(int j=0;j<4;j++)
-		{
+		for (int j=0;j<4;j++) {
 			deckPoints[j].x+=80+4;
 		}
 		deck=new BPolygon(deckPoints,4);
-		if(deck->Frame().Contains(point))
-		{
+		if (deck->Frame().Contains(point)) {
 			special=true;
 			saved=i;
 		}
 	}
-	if(special)
-	{
-		if(saved<4)
-		{	
-			if(selected->fNextCard==NULL && board[saved]==NULL)
-			{
+	if (special) {
+		if (saved<4) {	
+			if (selected->fNextCard==NULL && board[saved]==NULL) {
 				board[saved]=selected;
 				board[selected->oldNumber]=NULL;
 				moves++;
 			}
 		}else{
-			if(selected->fNextCard==NULL)
-			{
-				if(board[saved]==NULL && selected->fValue==1 )
-				{
+			if (selected->fNextCard==NULL) {
+				if (board[saved]==NULL && selected->fValue==1 ) {
 					goto putCardInStack;
 				}
-				if(board[saved]==NULL)
+				if (board[saved]==NULL)
 					return;
-				if(board[saved]->fValue == selected->fValue-1 
-					&& selected->fColor == board[saved]->fColor)
-				{
-					putCardInStack:
-					board[saved]=selected;
-					board[selected->oldNumber]=NULL;
-					moves++;
+				if (board[saved]->fValue == selected->fValue-1 
+					&& selected->fColor == board[saved]->fColor) {
+						putCardInStack:
+						board[saved]=selected;
+						board[selected->oldNumber]=NULL;
+						moves++;
 					
-					if(board[4]->fValue==13 && board[5]->fValue==13 
-						&& board[6]->fValue==13 
-						&& board[7]->fValue==13)
-					{
-						BString winText="";
-						winText << "WIN!!!\n\n";
-						winText << "Congratulations, you have won SuperFreeCell!!\n\n";
-						winText << "Moves: " << moves;
-						BAlert* win=new BAlert("Win",winText,"OK");
-						win->Go();
-					}
+						if (board[4]->fValue==13 && board[5]->fValue==13 
+							&& board[6]->fValue==13 
+							&& board[7]->fValue==13) {
+								BString winText="";
+								winText << "WIN!!!\n\n";
+								winText << "Congratulations, you have won";
+								winText << "SuperFreeCell!!\n\n";
+								winText << "Moves: " << moves;
+								BAlert* win=new BAlert("Win",winText,"OK");
+								win->Go();
+						}
 				}
 			}
 		}
@@ -322,21 +287,17 @@ GameView::MouseUp(BPoint point)
 		return;
 	}
 
-	for(short j=0;j<8;j++)
-	{
-		if(board[j*26+8]==NULL)
-		{
+	for (short j=0;j<8;j++) {
+		if (board[j*26+8]==NULL) {
 			BPoint pt(85*(j+1),40*(4));
 			BRect rect(pt,BPoint(pt.x+80,pt.y+116));
-			if(rect.Contains(point))
-			{
+			if (rect.Contains(point)) {
 				board[j*26+8]=selected;
 				board[selected->oldNumber]=NULL;
 				moves++;
 				
 				short k=0;
-				while(selected->fNextCard!=NULL)
-				{
+				while (selected->fNextCard!=NULL) {
 					board[j*26+8+k+1]=selected->fNextCard;
 					k++;
 					struct card* temp_card=selected->fNextCard;
@@ -349,20 +310,17 @@ GameView::MouseUp(BPoint point)
 			}
 		}
 	}
-	if(saved>=0 && saved<200)
-	{
-		if(board[saved+1]==NULL 
-			&& (board[saved]->fValue -1 == selected->fValue))
-		{
-			if(this->CheckSuite(selected->fColor,board[saved]->fColor))
-			{
+	if (saved>=0 && saved<200) {
+		if (board[saved+1]==NULL 
+			&& (board[saved]->fValue -1 == selected->fValue)) {
+				
+			if (this->CheckSuite(selected->fColor,board[saved]->fColor)) {
 				short j=1;
 				board[saved+1]=selected;
 				board[selected->oldNumber]=NULL;
 				moves++;
 				
-				while(selected->fNextCard!=NULL)
-				{
+				while (selected->fNextCard!=NULL) {
 					board[saved+j+1]=selected->fNextCard;
 					j++;
 					struct card* temp_card=selected->fNextCard;
@@ -391,16 +349,14 @@ GameView::StartNewGame()
 	
 	short boardpos=8;
 	short stack=0;
-	for(short card=0;card<52;card++)
-	{
+	for (short card=0;card<52;card++) {
 		board[boardpos]=this->NumberToCard(totalCards[card]);
 		boardpos++;
 		stack++;
-		if(stack==6 && boardpos<112)
-		{
+		if (stack==6 && boardpos<112) {
 			stack=0;
 			boardpos+=20;
-		}else if(stack==5 && boardpos>112){
+		}else if (stack==5 && boardpos>112) {
 			stack=0;
 			boardpos+=21;
 		}
@@ -421,11 +377,11 @@ void
 GameView::Random(int v[], int size)
 {
 	int i, j, num, dupl;
-	for (i = 0; i < size; i++){
+	for (i = 0; i < size; i++) {
  		num = 1 + rand() % size;
     	dupl = 0;
-    	for (j = 0; j <= i; j++){
-    		if (num == v[j]){
+    	for (j = 0; j <= i; j++) {
+    		if (num == v[j]) {
     			dupl = 1;
         		break;
         	}
@@ -443,16 +399,13 @@ GameView::NumberToCard(int cd)
 {
 	card* cad=new card;
 	cad->fValue=(cd % 13)+1;
-	if(cd<14)
-	{
+	if (cd<14) {
 		cad->fColor=1; // SPADES
-	}else if(cd<27)
-	{
+	}else if (cd<27) {
 		cad->fColor=3; // CLUBS
-	}else if(cd<40)
-	{
+	}else if (cd<40) {
 		cad->fColor=2; // HEARTS
-	}else{
+	}else {
 		cad->fColor=4; // DIAMONDS
 	}
 	cad->img=this->LoadBitmap(cad);
@@ -483,13 +436,11 @@ GameView::LoadBitmap(card* card)
 bool
 GameView::CheckStack(int card)
 {
-	if(board[card+1]==NULL)
-	{
+	if(board[card+1]==NULL) {
 		return true;
 	}
 	if(board[card]->fValue - 1 == board[card+1]->fValue 
-		&& this->CheckStack(card+1))
-	{
+		&& this->CheckStack(card+1)) {
 		return true;
 	}else{
 		return false;

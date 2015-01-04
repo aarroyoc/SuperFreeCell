@@ -55,15 +55,14 @@ Window::FrameResized(float newWidth, float newHeight)
 void
 Window::MessageReceived(BMessage* msg)
 {
-	switch(msg->what)
-	{
-		case NEW_GAME:{
+	switch(msg->what) {
+		case NEW_GAME: {
 			gameView->StartNewGame();
 			
 			break;
 		}
-		case 'DATA':{
-			if(msg->WasDropped()){
+		case 'DATA': {
+			if(msg->WasDropped()) {
 				gameView->MouseUp(msg->DropPoint());
 			}else{
 				BWindow::MessageReceived(msg);
@@ -101,12 +100,5 @@ Window::CreateMenuBar()
 	game->AddItem(quit);
 	
 	return menuBar;
-}
-
-
-void
-Window::Pulse()
-{
-	gameView->Pulse();
 }
 

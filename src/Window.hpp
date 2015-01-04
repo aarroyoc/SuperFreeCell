@@ -23,7 +23,6 @@ private:
 	bool				QuitRequested();
 	void				MessageReceived(BMessage* msg);
 	void				FrameResized(float newWidth, float newHeight);
-	void				Pulse();
 		
 	BMenuBar*			CreateMenuBar();
 	GameView*			gameView;
