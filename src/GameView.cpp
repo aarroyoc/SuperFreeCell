@@ -390,65 +390,23 @@ GameView::StartNewGame()
 	int totalCards[52]={0};
 	this->Random(totalCards,52);
 	
-	board[8]=this->NumberToCard(totalCards[0]);
-	board[9]=this->NumberToCard(totalCards[1]);
-	board[10]=this->NumberToCard(totalCards[2]);
-	board[11]=this->NumberToCard(totalCards[3]);
-	board[12]=this->NumberToCard(totalCards[4]);
-	board[13]=this->NumberToCard(totalCards[5]);
-	board[14]=this->NumberToCard(totalCards[6]);
 	
-	board[34]=this->NumberToCard(totalCards[7]);
-	board[35]=this->NumberToCard(totalCards[8]);
-	board[36]=this->NumberToCard(totalCards[9]);
-	board[37]=this->NumberToCard(totalCards[10]);
-	board[38]=this->NumberToCard(totalCards[11]);
-	board[39]=this->NumberToCard(totalCards[12]);
-	board[40]=this->NumberToCard(totalCards[13]);
-	
-	board[60]=this->NumberToCard(totalCards[14]);
-	board[61]=this->NumberToCard(totalCards[15]);
-	board[62]=this->NumberToCard(totalCards[16]);
-	board[63]=this->NumberToCard(totalCards[17]);
-	board[64]=this->NumberToCard(totalCards[18]);
-	board[65]=this->NumberToCard(totalCards[19]);
-	board[66]=this->NumberToCard(totalCards[20]);
-	
-	board[86]=this->NumberToCard(totalCards[21]);
-	board[87]=this->NumberToCard(totalCards[22]);
-	board[88]=this->NumberToCard(totalCards[23]);
-	board[89]=this->NumberToCard(totalCards[24]);
-	board[90]=this->NumberToCard(totalCards[25]);
-	board[91]=this->NumberToCard(totalCards[26]);
-	board[92]=this->NumberToCard(totalCards[27]);
-	
-	board[112]=this->NumberToCard(totalCards[28]);
-	board[113]=this->NumberToCard(totalCards[29]);
-	board[114]=this->NumberToCard(totalCards[30]);
-	board[115]=this->NumberToCard(totalCards[31]);
-	board[116]=this->NumberToCard(totalCards[32]);
-	board[117]=this->NumberToCard(totalCards[33]);
-	
-	board[138]=this->NumberToCard(totalCards[34]);
-	board[139]=this->NumberToCard(totalCards[35]);
-	board[140]=this->NumberToCard(totalCards[36]);
-	board[141]=this->NumberToCard(totalCards[37]);
-	board[142]=this->NumberToCard(totalCards[38]);
-	board[143]=this->NumberToCard(totalCards[39]);
-	
-	board[164]=this->NumberToCard(totalCards[40]);
-	board[165]=this->NumberToCard(totalCards[41]);
-	board[166]=this->NumberToCard(totalCards[42]);
-	board[167]=this->NumberToCard(totalCards[43]);
-	board[168]=this->NumberToCard(totalCards[44]);
-	board[169]=this->NumberToCard(totalCards[45]);
-	
-	board[190]=this->NumberToCard(totalCards[46]);
-	board[191]=this->NumberToCard(totalCards[47]);
-	board[192]=this->NumberToCard(totalCards[48]);
-	board[193]=this->NumberToCard(totalCards[49]);
-	board[194]=this->NumberToCard(totalCards[50]);
-	board[195]=this->NumberToCard(totalCards[51]);
+	short boardpos=8;
+	short stack=0;
+	for(short card=0;card<52;card++)
+	{
+		board[boardpos]=this->NumberToCard(totalCards[card]);
+		boardpos++;
+		stack++;
+		if(stack==6 && boardpos<112)
+		{
+			stack=0;
+			boardpos+=20;
+		}else if(stack==5 && boardpos>112){
+			stack=0;
+			boardpos+=21;
+		}
+	}
 }
 
 void
