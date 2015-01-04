@@ -15,8 +15,10 @@ const int32 CARD_PUSH=124;
 
 
 
-Window::Window() : 
-	BWindow(BRect(100,100,100+WINDOW_WIDTH+20,100+WINDOW_HEIGHT+30),"SuperFreeCell",B_TITLED_WINDOW,0)
+Window::Window() 
+		: 
+		BWindow(BRect(100,100,100+WINDOW_WIDTH+20,100+WINDOW_HEIGHT+30),
+			"SuperFreeCell",B_TITLED_WINDOW,0)
 {
 	BGroupLayout* layout=new BGroupLayout(B_VERTICAL);
 	SetLayout(layout);
@@ -24,16 +26,16 @@ Window::Window() :
 	layout->AddView(CreateMenuBar());
 	layout->AddView(gameView);
 	
-	//SetPulseRate(200*1000);
 	SetPulseRate(120);
-	//SetPulseRate(500000);
 	
 }
+
 
 Window::~Window()
 {
 	
 }
+
 
 bool
 Window::QuitRequested()
@@ -42,11 +44,13 @@ Window::QuitRequested()
 	return BWindow::QuitRequested();
 }
 
+
 void
 Window::FrameResized(float newWidth, float newHeight)
 {
 	gameView->Resize(newWidth,newHeight);
 }
+
 
 void
 Window::MessageReceived(BMessage* msg)
@@ -71,6 +75,7 @@ Window::MessageReceived(BMessage* msg)
 			BWindow::MessageReceived(msg);
 	}
 }
+
 
 BMenuBar*
 Window::CreateMenuBar()
@@ -97,6 +102,7 @@ Window::CreateMenuBar()
 	
 	return menuBar;
 }
+
 
 void
 Window::Pulse()

@@ -6,10 +6,11 @@
 #include "App.hpp"
 #include "Window.hpp"
 
-SuperFreeCell::SuperFreeCell() : BApplication("application/x-vnd.adrianarroyocalle.SuperFreeCell")
+SuperFreeCell::SuperFreeCell() 
+		:
+		BApplication("application/x-vnd.adrianarroyocalle.SuperFreeCell")
 {
 	Window* win=new Window();
-	
 	win->Lock();
 	win->Show();
 	win->Unlock();

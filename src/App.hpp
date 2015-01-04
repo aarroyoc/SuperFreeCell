@@ -11,12 +11,12 @@
 #include <InterfaceKit.h>
 
 class SuperFreeCell : public BApplication{
-	public:
+public:
 					SuperFreeCell();
 					~SuperFreeCell();			
-	private:
-		void		AboutRequested();
+private:
+	void			AboutRequested();
 };
 
 
-#endif // _H
+#endif

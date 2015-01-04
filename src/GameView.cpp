@@ -5,15 +5,19 @@
 
 #include "GameView.hpp"
 #include "Window.hpp"
+
 #include <TranslationUtils.h>
+
 #include <stdlib.h>
 
 
-GameView::GameView() : BView(BRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT),
-	"GameView", B_FOLLOW_LEFT | B_FOLLOW_TOP, B_WILL_DRAW | B_PULSE_NEEDED | B_FULL_UPDATE_ON_RESIZE)
+GameView::GameView() 
+		: 
+		BView(BRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT),"GameView",
+			B_FOLLOW_LEFT | B_FOLLOW_TOP,
+			B_WILL_DRAW | B_PULSE_NEEDED | B_FULL_UPDATE_ON_RESIZE)
 {
 	SetViewColor(0,85,0);
-	//board=new Board(this);
 	width=WINDOW_WIDTH;
 	height=WINDOW_HEIGHT;
 	points=0;
@@ -23,28 +27,29 @@ GameView::GameView() : BView(BRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT),
 	this->StartNewGame();
 }
 
+
 GameView::~GameView()
 {
 	
 }
 
+
 void
 GameView::AllAttached()
 {
-	//GENERATE BOARD
 	MakeFocus(true);
 	BView::AttachedToWindow();
 }
+
 
 void
 GameView::Draw(BRect rect)
 {
 	SetDrawingMode(B_OP_ALPHA);
 	
-	
-	
-	//DRAW SLOTS
-	BPoint deckPoints[]={ BPoint(-80,4),BPoint(-80,116),BPoint(0,116),BPoint(0,4)};
+	// Draw slots
+	BPoint deckPoints[]={ BPoint(-80,4),BPoint(-80,116),BPoint(0,116),
+		BPoint(0,4)};
 	BPolygon* deck;
 	
 	for(int i=0;i<8;i++)
@@ -65,28 +70,22 @@ GameView::Draw(BRect rect)
 		StrokePolygon(deck);
 		
 		if(board[i]!=NULL){
-			//BBitmap* img=this->LoadBitmap(board[i]);
 			DrawBitmap(board[i]->img,deck->Frame());
 		}
 	}
-	//DRAW CARDS
+	// Draw cards
 	short row=0;
 	short stack=0;
+	
 	for(short i=8;i<200;i++)
 	{
 		BBitmap* img=NULL;
 		if(board[i]!=NULL)
 		{
-			//img=this->LoadBitmap(board[i]);
 			img=board[i]->img;
 		}
 		BPoint pt(85*(stack+1),40*(row+4));
 		DrawBitmapAsync(img,pt);
-		/*if( board[i]!=NULL && board[i]->fSelected)
-		{
-			SetHighColor(255,0,0,127);
-			FillRect(BRect(pt,BPoint(pt.x+80,pt.y+116)));
-		}*/
 		row++;
 		if(row==26)
 		{
@@ -96,7 +95,7 @@ GameView::Draw(BRect rect)
 	}
 	Sync();
 	
-	//DRAW POINTS
+	// Draw Points
 	
 	BString pointsText = "";
 	pointsText << points;
@@ -112,12 +111,6 @@ GameView::Draw(BRect rect)
 	smallFont.SetSize(12);
 	
 	SetHighColor(255,255,255);
-	
-	/*SetFont(&bigFont);
-	DrawString(pointsText,BPoint((width+10 - bigFont.StringWidth(pointsText)) / 2, height-50));
-
-	SetFont(&smallFont);
-	DrawString("Points", BPoint((width+10  - smallFont.StringWidth("Points")) / 2, height-35));*/
 
 	SetFont(&bigFont);
 	DrawString(movesText, BPoint((width+10 - bigFont.StringWidth(movesText)) / 2, height-15));
@@ -126,23 +119,27 @@ GameView::Draw(BRect rect)
 	DrawString("Moves", BPoint((width+10   - smallFont.StringWidth("Moves")) / 2, height));
 }
 
+
 void
 GameView::Pulse()
 {
 	Invalidate();
 }
 
+
 void
 GameView::MouseDown(BPoint point)
 {
 	if(mouselock)
 		return;
+		
 	mouselock=true;
 	card* card=NULL;
 	short row=0;
 	short stack=0;
 	short saved=-1;
 	bool special=false;
+	
 	for(short i=8;i<200;i++)
 	{
 		BPoint pt(85*(stack+1),40*(row+4));
@@ -151,7 +148,6 @@ GameView::MouseDown(BPoint point)
 		{
 			if(rect.Contains(point))
 			{
-				//SELECT CARD
 				saved=i;
 			}
 		}
@@ -162,8 +158,9 @@ GameView::MouseDown(BPoint point)
 			stack++;
 		}
 	}
-	//CHECKING SPECIAL PLACES
-	BPoint deckPoints[]={ BPoint(-80,4),BPoint(-80,116),BPoint(0,116),BPoint(0,4)};
+
+	BPoint deckPoints[]={ BPoint(-80,4),BPoint(-80,116),BPoint(0,116),
+		BPoint(0,4)};
 	BPolygon* deck;
 	
 	for(short i=0;i<8;i++)
@@ -194,7 +191,8 @@ GameView::MouseDown(BPoint point)
 				return;
 			selected=board[saved];
 			selected->oldNumber=saved;
-			DragMessage(new BMessage(B_SIMPLE_DATA),new BBitmap(selected->img),B_OP_BLEND,BPoint(0,0));
+			DragMessage(new BMessage(B_SIMPLE_DATA),new BBitmap(selected->img),
+				B_OP_BLEND,BPoint(0,0));
 		}
 		return;
 	}
@@ -202,7 +200,6 @@ GameView::MouseDown(BPoint point)
 	
 	if(saved>=0 && this->CheckStack(saved))
 	{
-		//STACK OPTIONS
 		short j=0;
 		while(board[saved+j+1]!=NULL)
 		{
@@ -212,21 +209,19 @@ GameView::MouseDown(BPoint point)
 		}
 		selected=board[saved];
 		selected->oldNumber=saved;
-		DragMessage(new BMessage(B_SIMPLE_DATA),new BBitmap(selected->img),B_OP_BLEND,BPoint(0,0));
+		DragMessage(new BMessage(B_SIMPLE_DATA),new BBitmap(selected->img),
+			B_OP_BLEND,BPoint(0,0));
 	}
 
 }
 
+
 void
 GameView::MouseMoved(BPoint point, uint32 transit, const BMessage* msg)
 {
-	/*if(mouselock && selected!=NULL)
-	{
-		//BBitmap* img=this->LoadBitmap(selected);
-		DrawBitmapAsync(selected->img,point);
-		Invalidate();
-	}*/
+
 }
+
 
 void
 GameView::MouseUp(BPoint point)
@@ -247,7 +242,6 @@ GameView::MouseUp(BPoint point)
 		{
 			if(rect.Contains(point))
 			{
-				//SELECT CARD
 				saved=i;
 			}
 		}
@@ -258,8 +252,9 @@ GameView::MouseUp(BPoint point)
 			stack++;
 		}
 	}
-	//CHECKING SPECIAL PLACES
-	BPoint deckPoints[]={ BPoint(-80,4),BPoint(-80,116),BPoint(0,116),BPoint(0,4)};
+	
+	BPoint deckPoints[]={ BPoint(-80,4),BPoint(-80,116),BPoint(0,116),
+		BPoint(0,4)};
 	BPolygon* deck;
 	
 	for(short i=0;i<8;i++)
@@ -301,16 +296,18 @@ GameView::MouseUp(BPoint point)
 				}
 				if(board[saved]==NULL)
 					return;
-				if(board[saved]->fValue == selected->fValue-1 && selected->fColor == board[saved]->fColor)
+				if(board[saved]->fValue == selected->fValue-1 
+					&& selected->fColor == board[saved]->fColor)
 				{
 					putCardInStack:
 					board[saved]=selected;
 					board[selected->oldNumber]=NULL;
 					moves++;
 					
-					if(board[4]->fValue==13 && board[5]->fValue==13 && board[6]->fValue==13 && board[7]->fValue==13)
+					if(board[4]->fValue==13 && board[5]->fValue==13 
+						&& board[6]->fValue==13 
+						&& board[7]->fValue==13)
 					{
-						//WIN
 						BString winText="";
 						winText << "WIN!!!\n\n";
 						winText << "Congratulations, you have won SuperFreeCell!!\n\n";
@@ -324,7 +321,7 @@ GameView::MouseUp(BPoint point)
 		selected=NULL;
 		return;
 	}
-	//CHECKING VOID SPACES
+
 	for(short j=0;j<8;j++)
 	{
 		if(board[j*26+8]==NULL)
@@ -354,8 +351,8 @@ GameView::MouseUp(BPoint point)
 	}
 	if(saved>=0 && saved<200)
 	{
-		//SUPPORT FOR STACKS
-		if(board[saved+1]==NULL && (board[saved]->fValue -1 == selected->fValue))
+		if(board[saved+1]==NULL 
+			&& (board[saved]->fValue -1 == selected->fValue))
 		{
 			if(this->CheckSuite(selected->fColor,board[saved]->fColor))
 			{
@@ -378,6 +375,7 @@ GameView::MouseUp(BPoint point)
 	}
 	selected=NULL;
 }
+
 
 void
 GameView::StartNewGame()
@@ -409,6 +407,7 @@ GameView::StartNewGame()
 	}
 }
 
+
 void
 GameView::Resize(float wid,float he)
 {
@@ -416,6 +415,7 @@ GameView::Resize(float wid,float he)
 	width=wid-20;
 	height=he-30;
 }
+
 
 void
 GameView::Random(int v[], int size)
@@ -437,6 +437,7 @@ GameView::Random(int v[], int size)
 	}
 }
 
+
 card*
 GameView::NumberToCard(int cd)
 {
@@ -444,20 +445,21 @@ GameView::NumberToCard(int cd)
 	cad->fValue=(cd % 13)+1;
 	if(cd<14)
 	{
-		cad->fColor=1; //SPADES
+		cad->fColor=1; // SPADES
 	}else if(cd<27)
 	{
-		cad->fColor=3; //CLUBS
+		cad->fColor=3; // CLUBS
 	}else if(cd<40)
 	{
-		cad->fColor=2; //HEARTS
+		cad->fColor=2; // HEARTS
 	}else{
-		cad->fColor=4; //DIAMONDS
+		cad->fColor=4; // DIAMONDS
 	}
 	cad->img=this->LoadBitmap(cad);
 	cad->fNextCard=NULL;
 	return cad;
 }
+
 
 BBitmap*
 GameView::LoadBitmap(card* card)
@@ -477,6 +479,7 @@ GameView::LoadBitmap(card* card)
 	return BTranslationUtils::GetBitmap('rGFX',path);
 }
 
+
 bool
 GameView::CheckStack(int card)
 {
@@ -484,13 +487,15 @@ GameView::CheckStack(int card)
 	{
 		return true;
 	}
-	if(board[card]->fValue - 1 == board[card+1]->fValue && this->CheckStack(card+1))
+	if(board[card]->fValue - 1 == board[card+1]->fValue 
+		&& this->CheckStack(card+1))
 	{
 		return true;
 	}else{
 		return false;
 	}
 }
+
 
 bool
 GameView::CheckSuite(int suit, int suit2)
@@ -502,3 +507,4 @@ GameView::CheckSuite(int suit, int suit2)
 	else
 		return false;
 }
+

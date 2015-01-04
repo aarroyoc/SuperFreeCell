@@ -16,18 +16,18 @@
 
 
 class Window : public BWindow{
-	public:
+public:
 						Window();
 						~Window();		
-	private:
-		bool			QuitRequested();
-		void			MessageReceived(BMessage* msg);
-		void			FrameResized(float newWidth, float newHeight);
-		void			Pulse();
+private:
+	bool				QuitRequested();
+	void				MessageReceived(BMessage* msg);
+	void				FrameResized(float newWidth, float newHeight);
+	void				Pulse();
 		
-		BMenuBar*		CreateMenuBar();
-		GameView*		gameView;
+	BMenuBar*			CreateMenuBar();
+	GameView*			gameView;
 };
 
 
-#endif // _H
+#endif
