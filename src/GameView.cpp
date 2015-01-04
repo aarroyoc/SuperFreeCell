@@ -15,7 +15,7 @@ GameView::GameView()
 		: 
 		BView(BRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT),"GameView",
 			B_FOLLOW_LEFT | B_FOLLOW_TOP,
-			B_WILL_DRAW | B_PULSE_NEEDED | B_FULL_UPDATE_ON_RESIZE)
+			B_WILL_DRAW | B_FULL_UPDATE_ON_RESIZE)
 {
 	SetViewColor(0,85,0);
 	width=WINDOW_WIDTH;
@@ -114,13 +114,6 @@ GameView::Draw(BRect rect)
 
 
 void
-GameView::Pulse()
-{
-	Invalidate();
-}
-
-
-void
 GameView::MouseDown(BPoint point)
 {
 	if(mouselock)
@@ -192,7 +185,6 @@ GameView::MouseDown(BPoint point)
 		DragMessage(new BMessage(B_SIMPLE_DATA),new BBitmap(selected->img),
 			B_OP_BLEND,BPoint(0,0));
 	}
-
 }
 
 
@@ -283,6 +275,7 @@ GameView::MouseUp(BPoint point)
 				}
 			}
 		}
+		Invalidate();
 		selected=NULL;
 		return;
 	}
@@ -305,6 +298,7 @@ GameView::MouseUp(BPoint point)
 					selected=temp_card;
 					board[selected->oldNumber]=NULL;
 				}
+				Invalidate();
 				selected=NULL;
 				return;
 			}
@@ -331,6 +325,7 @@ GameView::MouseUp(BPoint point)
 			}
 		}
 	}
+	Invalidate();
 	selected=NULL;
 }
 
@@ -353,14 +348,15 @@ GameView::StartNewGame()
 		board[boardpos]=this->NumberToCard(totalCards[card]);
 		boardpos++;
 		stack++;
-		if (stack==6 && boardpos<112) {
+		if (stack==7 && boardpos<112) {
+			stack=0;
+			boardpos+=19;
+		}else if (stack==6 && boardpos>112) {
 			stack=0;
 			boardpos+=20;
-		}else if (stack==5 && boardpos>112) {
-			stack=0;
-			boardpos+=21;
 		}
 	}
+	Invalidate();
 }
 
 

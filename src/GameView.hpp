@@ -28,7 +28,6 @@ public:
 					~GameView();
 	void			AllAttached();
 	void			Draw(BRect rect);
-	virtual void	Pulse();
 	void			MouseDown(BPoint point);
 	void			MouseMoved(BPoint, uint32 transit, const BMessage* msg);
 	void			MouseUp(BPoint point);
